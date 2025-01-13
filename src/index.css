@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-wenhei {
-  font-family: "Hanyi WenHei 85W", sans-serif;
+@font-face {
+  font-family: "GenshinImpact";
+  src: url("./assets/fonts/zhcn.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  @apply font-sans; /* Use Tailwind's default class */
 }
