@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { genshinCollection, PitySystem, startingPity, T } from "./types";
 import {
   createCollection,
-  getRandomIndex,
+  getRandomItem,
   getRandomNumber,
   isCharacterItem,
 } from "./functions";
@@ -49,175 +49,143 @@ function App() {
       return e;
     }
   };
-
+  const setItem = (item: T) => {
+    if (isCharacterItem(item)) {
+      setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
+    } else {
+      setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
+    }
+  };
+  // Helper function to update the pity system
+  const updatePitySystem = (
+    wishType: string,
+    odds4Star: number,
+    odds5Star: number
+  ) => {
+    if (wishType.toLowerCase() === "standard") {
+      setPitySystem({
+        ...(isPitySystem as PitySystem),
+        standard4star: odds4Star,
+        standard5star: odds5Star,
+      });
+    } else if (wishType.toLowerCase() === "weapon") {
+      setPitySystem({
+        ...(isPitySystem as PitySystem),
+        weapon4star: odds4Star,
+        weapon5star: odds5Star,
+      });
+    }
+  };
   const standardWish = () => {
     try {
+      // Deduct currency
       setCurrency(isCurrency - 160);
+
+      // Ensure necessary data is initialized
       if (!isGenshinCollection) throw new Error("No Genshin Data");
       if (!isPitySystem) throw new Error("Pity System not Initialized");
-      // PITY SYSTEM
+
+      // Check for pity guarantees
       if (isPitySystem.standard5star >= 80) {
-        const index = getRandomIndex(isGenshinCollection.rarity5);
-        const item = isGenshinCollection.rarity5[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          standard4star: isPitySystem.standard4star + 1,
-          standard5star: 0,
-        });
-        return item;
-      } else if (isPitySystem.standard4star >= 10) {
-        const index = getRandomIndex(isGenshinCollection.rarity4);
-        const item = isGenshinCollection.rarity4[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          standard4star: 0,
-          standard5star: isPitySystem.standard5star + 1,
-        });
+        const item = getRandomItem(isGenshinCollection.rarity5);
+        setItem(item);
+        updatePitySystem("standard", isPitySystem.standard4star + 1, 0);
         return item;
       }
 
-      // MAY THE ODDS BE EVER IN YOUR FAVOR. GAMBAAAAAA!!!!
-      const odds = getRandomNumber();
-      if (odds <= 94.3) {
-        const index = getRandomIndex(isGenshinCollection.rarity3);
-        const item = isGenshinCollection.rarity3[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          standard4star: isPitySystem.standard4star + 1,
-          standard5star: isPitySystem.standard5star + 1,
-        });
-        return item;
-      } else if (odds <= 99.4) {
-        const index = getRandomIndex(isGenshinCollection.rarity4);
-        const item = isGenshinCollection.rarity4[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          standard4star: 0,
-          standard5star: isPitySystem.standard5star + 1,
-        });
-        return item;
-      } else {
-        const index = getRandomIndex(isGenshinCollection.rarity5);
-        const item = isGenshinCollection.rarity5[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          standard4star: isPitySystem.standard4star + 1,
-          standard5star: 0,
-        });
+      if (isPitySystem.standard4star >= 10) {
+        const item = getRandomItem(isGenshinCollection.rarity4);
+        setItem(item);
+        updatePitySystem("standard", 0, isPitySystem.standard5star + 1);
         return item;
       }
+
+      // Random pull logic
+      const odds = getRandomNumber();
+      let rarity: keyof genshinCollection<T>;
+
+      if (odds <= 94.3) {
+        rarity = "rarity3";
+      } else if (odds <= 99.4) {
+        rarity = "rarity4";
+      } else {
+        rarity = "rarity5";
+      }
+
+      const item = getRandomItem(isGenshinCollection[rarity]);
+      setItem(item);
+
+      if (rarity === "rarity3") {
+        updatePitySystem(
+          "standard",
+          isPitySystem.standard4star + 1,
+          isPitySystem.standard5star + 1
+        );
+      } else if (rarity === "rarity4") {
+        updatePitySystem("standard", 0, isPitySystem.standard5star + 1);
+      } else {
+        updatePitySystem("standard", isPitySystem.standard4star + 1, 0);
+      }
+
+      return item;
     } catch (e) {
-      console.log("Error Standard Wish:", e);
+      console.error("Error Standard Wish:", e);
     }
   };
   const weaponWish = () => {
     try {
+      // Deduct currency
       setCurrency(isCurrency - 160);
+
+      // Ensure necessary data is initialized
       if (!isGenshinCollection) throw new Error("No Genshin Data");
       if (!isPitySystem) throw new Error("Pity System not Initialized");
-      // PITY SYSTEM
+
+      // Check for pity guarantees
       if (isPitySystem.weapon5star >= 80) {
-        const index = getRandomIndex(isGenshinCollection.rarity5);
-        const item = isGenshinCollection.rarity5[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          weapon4star: isPitySystem.weapon4star + 1,
-          weapon5star: 0,
-        });
-        return item;
-      } else if (isPitySystem.weapon4star >= 10) {
-        const index = getRandomIndex(isGenshinCollection.rarity4);
-        const item = isGenshinCollection.rarity4[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          weapon4star: 0,
-          weapon5star: isPitySystem.weapon5star + 1,
-        });
+        const item = getRandomItem(isGenshinCollection.rarity5);
+        setItem(item);
+        updatePitySystem("weapon", isPitySystem.weapon4star + 1, 0);
         return item;
       }
 
-      // MAY THE ODDS BE EVER IN YOUR FAVOR. GAMBAAAAAA!!!!
-      const odds = getRandomNumber();
-      if (odds <= 94.3) {
-        const index = getRandomIndex(isGenshinCollection.rarity3);
-        const item = isGenshinCollection.rarity3[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          weapon4star: isPitySystem.weapon4star + 1,
-          weapon5star: isPitySystem.weapon5star + 1,
-        });
-        return item;
-      } else if (odds <= 99.4) {
-        const index = getRandomIndex(isGenshinCollection.rarity4);
-        const item = isGenshinCollection.rarity4[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          weapon4star: 0,
-          weapon5star: isPitySystem.weapon5star + 1,
-        });
-        return item;
-      } else {
-        const index = getRandomIndex(isGenshinCollection.rarity5);
-        const item = isGenshinCollection.rarity5[index];
-        if (isCharacterItem(item)) {
-          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
-        } else {
-          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
-        }
-        setPitySystem({
-          ...(isPitySystem as PitySystem),
-          weapon4star: isPitySystem.weapon4star + 1,
-          weapon5star: 0,
-        });
+      if (isPitySystem.weapon4star >= 10) {
+        const item = getRandomItem(isGenshinCollection.rarity4);
+        setItem(item);
+        updatePitySystem("weapon", 0, isPitySystem.weapon5star + 1);
         return item;
       }
+
+      // Random pull logic
+      const odds = getRandomNumber();
+      let rarity: keyof genshinCollection<T>;
+
+      if (odds <= 94.3) {
+        rarity = "rarity3";
+      } else if (odds <= 99.4) {
+        rarity = "rarity4";
+      } else {
+        rarity = "rarity5";
+      }
+
+      const item = getRandomItem(isGenshinCollection[rarity]);
+      setItem(item);
+
+      if (rarity === "rarity3") {
+        updatePitySystem(
+          "weapon",
+          isPitySystem.weapon4star + 1,
+          isPitySystem.weapon5star + 1
+        );
+      } else if (rarity === "rarity4") {
+        updatePitySystem("weapon", 0, isPitySystem.weapon5star + 1);
+      } else {
+        updatePitySystem("weapon", isPitySystem.weapon4star + 1, 0);
+      }
+
+      return item;
     } catch (e) {
-      console.log("Error Weapon Wish:", e);
+      console.error("Error Weapon Wish:", e);
     }
   };
   useEffect(() => {

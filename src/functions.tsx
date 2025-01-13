@@ -25,3 +25,8 @@ export const isCharacterItem = (item: any): item is Character => {
 export const isWeaponItem = (item: any): item is Weapon => {
   return (item as Weapon).baseAttack !== undefined;
 };
+
+export const getRandomItem = (items: T[]) => {
+  const index = getRandomIndex(items);
+  return items[index];
+};
