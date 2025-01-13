@@ -44,3 +44,13 @@ export const startingPity: PitySystem = {
   weapon4star: 0,
   weapon5star: 0,
 };
+
+export interface StandardPageProps {
+  standardWish: () => T | undefined;
+  setWishing: React.Dispatch<React.SetStateAction<Boolean>>;
+}
+
+export interface WeaponPageProps {
+  weaponWish: () => T | undefined;
+  setWishing: React.Dispatch<React.SetStateAction<Boolean>>;
+}

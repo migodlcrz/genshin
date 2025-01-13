@@ -2,14 +2,7 @@ import scene from "./assets/images/scene.jpg";
 import primogem from "./assets/images/primogem.png";
 import logo from "./assets/images/logo.png";
 import { useEffect, useState } from "react";
-import {
-  Character,
-  genshinCollection,
-  PitySystem,
-  startingPity,
-  T,
-  Weapon,
-} from "./types";
+import { genshinCollection, PitySystem, startingPity, T } from "./types";
 import {
   createCollection,
   getRandomIndex,
@@ -21,11 +14,12 @@ import WeaponPage from "./components/WeaponPage";
 
 function App() {
   const [isHome, setHome] = useState<Boolean>(false);
+  const [isWishing, setWishing] = useState<Boolean>(false);
   const [isCurrency, setCurrency] = useState<number>(32000);
   const [isGenshinCollection, setGenshinCollection] =
     useState<genshinCollection<T> | null>();
-  const [isCharacter, setCharacter] = useState<Character | null>();
-  const [isWeapon, setWeapon] = useState<Weapon | null>();
+  const [isCharacter, setCharacter] = useState<string | null>();
+  const [isWeapon, setWeapon] = useState<string | null>();
   const [isPitySystem, setPitySystem] = useState<PitySystem | null>(
     startingPity
   );
@@ -66,9 +60,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity5);
         const item = isGenshinCollection.rarity5[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -80,9 +74,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity4);
         const item = isGenshinCollection.rarity4[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -98,9 +92,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity3);
         const item = isGenshinCollection.rarity3[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -112,9 +106,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity4);
         const item = isGenshinCollection.rarity4[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -126,9 +120,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity5);
         const item = isGenshinCollection.rarity5[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -151,9 +145,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity5);
         const item = isGenshinCollection.rarity5[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -165,9 +159,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity4);
         const item = isGenshinCollection.rarity4[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -183,9 +177,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity3);
         const item = isGenshinCollection.rarity3[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -197,9 +191,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity4);
         const item = isGenshinCollection.rarity4[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -211,9 +205,9 @@ function App() {
         const index = getRandomIndex(isGenshinCollection.rarity5);
         const item = isGenshinCollection.rarity5[index];
         if (isCharacterItem(item)) {
-          setCharacter(item);
+          setCharacter(`https://genshin.jmp.blue/characters/${item.id}/icon`);
         } else {
-          setWeapon(item);
+          setWeapon(`https://genshin.jmp.blue/weapons/${item.id}/icon`);
         }
         setPitySystem({
           ...(isPitySystem as PitySystem),
@@ -250,7 +244,6 @@ function App() {
                 <button
                   onClick={() => {
                     setPage("standard");
-                    console.log(standardWish());
                   }}
                   className={`flex flex-row w-1/3 h-full p-1 ${
                     page === "standard"
@@ -265,7 +258,6 @@ function App() {
                 <button
                   onClick={() => {
                     setPage("weapon");
-                    console.log(weaponWish());
                   }}
                   className={`flex flex-row w-1/3 h-full p-1 ${
                     page === "weapon"
@@ -276,7 +268,7 @@ function App() {
                   Weapon Wish
                 </button>
                 <div className="flex flex-row w-1/3 h-full px-4 bg-slate-200 border-4 text-xl font-bold border-slate-400 rounded-full items-center shadow-inner shadow-black">
-                  Wish Count: 200
+                  Wish Count: {200 - isCurrency / 160}
                 </div>
               </div>
             </div>
@@ -286,12 +278,21 @@ function App() {
                   <div className="text-black text-2xl">
                     Last Pulled Character
                   </div>
+                  {!isWishing && isCharacter && <img src={isCharacter} />}
                 </div>
                 <div className="flex flex-col h-full w-1/2 p-2 items-center justify-start">
                   <div className="text-black text-2xl">Last Pulled Weapon</div>
+                  {!isWishing && isWeapon && <img src={isWeapon} />}
                 </div>
               </div>
-              {page === "standard" ? <StandardPage /> : <WeaponPage />}
+              {page === "standard" ? (
+                <StandardPage
+                  standardWish={standardWish}
+                  setWishing={setWishing}
+                />
+              ) : (
+                <WeaponPage weaponWish={weaponWish} setWishing={setWishing} />
+              )}
             </div>
           </div>
         </div>
