@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        wenhei: ["Hanyi WenHei 85W", "sans-serif"],
+        sans: ["GenshinImpact", "sans-serif"], // Set GenshinImpact as the default sans font
       },
     },
   },
