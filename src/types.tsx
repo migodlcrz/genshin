@@ -31,14 +31,14 @@ export interface genshinCollection<T> {
 
 export type T = Character | Weapon;
 
-export interface pitySystem {
+export interface PitySystem {
   standard4star: number;
   standard5star: number;
   weapon4star: number;
   weapon5star: number;
 }
 
-export const startingPity: pitySystem = {
+export const startingPity: PitySystem = {
   standard4star: 0,
   standard5star: 0,
   weapon4star: 0,

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import {
   Character,
   genshinCollection,
-  pitySystem,
+  PitySystem,
   startingPity,
   T,
   Weapon,
@@ -26,7 +26,7 @@ function App() {
     useState<genshinCollection<T> | null>();
   const [isCharacter, setCharacter] = useState<Character | null>();
   const [isWeapon, setWeapon] = useState<Weapon | null>();
-  const [isPitySystem, setPitySystem] = useState<pitySystem | null>(
+  const [isPitySystem, setPitySystem] = useState<PitySystem | null>(
     startingPity
   );
 
@@ -71,7 +71,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           standard4star: isPitySystem.standard4star + 1,
           standard5star: 0,
         });
@@ -85,7 +85,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           standard4star: 0,
           standard5star: isPitySystem.standard5star + 1,
         });
@@ -103,7 +103,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           standard4star: isPitySystem.standard4star + 1,
           standard5star: isPitySystem.standard5star + 1,
         });
@@ -117,7 +117,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           standard4star: 0,
           standard5star: isPitySystem.standard5star + 1,
         });
@@ -131,7 +131,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           standard4star: isPitySystem.standard4star + 1,
           standard5star: 0,
         });
@@ -156,7 +156,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           weapon4star: isPitySystem.weapon4star + 1,
           weapon5star: 0,
         });
@@ -170,7 +170,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           weapon4star: 0,
           weapon5star: isPitySystem.weapon5star + 1,
         });
@@ -188,7 +188,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           weapon4star: isPitySystem.weapon4star + 1,
           weapon5star: isPitySystem.weapon5star + 1,
         });
@@ -202,7 +202,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           weapon4star: 0,
           weapon5star: isPitySystem.weapon5star + 1,
         });
@@ -216,7 +216,7 @@ function App() {
           setWeapon(item);
         }
         setPitySystem({
-          ...(isPitySystem as pitySystem),
+          ...(isPitySystem as PitySystem),
           weapon4star: isPitySystem.weapon4star + 1,
           weapon5star: 0,
         });
