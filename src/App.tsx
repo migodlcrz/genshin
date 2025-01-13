@@ -265,6 +265,7 @@ function App() {
                 <button
                   onClick={() => {
                     setPage("weapon");
+                    console.log(weaponWish());
                   }}
                   className={`flex flex-row w-1/3 h-full p-1 ${
                     page === "weapon"
